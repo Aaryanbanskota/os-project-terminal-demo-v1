@@ -45,10 +45,9 @@ PING google.com (142.250.190.46) 56(84) bytes of data.
 ## 🛠️ Tech Architecture
 
 <div align="center">
-  <img src="https://via.placeholder.com/600x300/2d2d2d/ffffff?text=Frontend+Architecture+Diagram" width="70%" alt="Tech Stack Diagram"/>
+  <img src="https://excalidraw.com/#json=W4WBYvvjSAkpWZvXPcWY6,x-0v1rmJHiy2fueK18llgQ"/>
 </div>
 
-> Tip: Design your own architecture diagrams using [Excalidraw](https://excalidraw.com)
 
 ---
 
