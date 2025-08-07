@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+
+:root {
+  --primary-color: #00ff00;
+  --secondary-color: #0aa;
+  --error-color: #f00;
+  --warning-color: #ff0;
+  --success-color: #0f0;
+  --info-color: #0ff;
+  --background-dark: #000;
+  --background-light: #111;
+}
+
+html, body {
+  margin: 0; 
+  padding: 0; 
+  height: 100%;
+  background: var(--background-dark);
+  color: var(--primary-color);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+  overflow: hidden;
+  user-select: none;
+}
+
+#terminal {
+  padding: 15px 20px;
+  height: 100vh;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  outline: none;
+  box-sizing: border-box;
+  background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9));
+}
+
+.line {
+  display: block;
+  width: 100%;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.prompt {
+  display: inline;
+  user-select: none;
+  color: var(--info-color);
+}
+
+.input {
+  display: inline;
+  outline: none;
+  border: none;
+  background: transparent;
+  color: var(--primary-color);
+  caret-color: var(--primary-color);
+  font-family: inherit;
+  font-size: inherit;
+  width: calc(100% - 10ch);
+  max-width: 100%;
+  user-select: text;
+}
+
+/* Blinking Cursor (custom) */
+.input:focus {
+  outline: none;
+}
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  background: var(--primary-color);
+  animation: blink 1.2s steps(2, start) infinite;
+  vertical-align: bottom;
+}
+@keyframes blink {
+  0%, 50% { background: var(--primary-color); }
+  51%, 100% { background: transparent; }
+}
+
+/* Modes */
+body.mode-normal {
+  --primary-color: #0f0;
+  background: var(--background-dark);
+}
+body.mode-hack {
+  --primary-color: #00ff00;
+  background: #001100;
+  text-shadow:
+    0 0 10px #00ff00,
+    0 0 20px #00ff00,
+    0 0 30px #0f0,
+    0 0 40px #0f0,
+    0 0 50px #0f0;
+}
+body.mode-casual {
+  --primary-color: #ddeeff;
+  background: #112244;
+}
+body.mode-panic {
+  --primary-color: #ff4444;
+  background: #440000;
+  text-shadow: 0 0 5px #ff0000;
+}
+body.mode-matrix {
+  --primary-color: #00ff41;
+  background: #000;
+  background-image: radial-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+body.mode-ocean {
+  --primary-color: #00ffff;
+  background: #001a33;
+}
+body.mode-solarized {
+  --primary-color: #b58900;
+  background: #002b36;
+}
+
+a {
+  color: var(--info-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* Scrollbar */
+#terminal::-webkit-scrollbar {
+  width: 8px;
+}
+#terminal::-webkit-scrollbar-track {
+  background: var(--background-light);
+}
+#terminal::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+/* Status indicators */
+.status {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.status.success {
+  color: var(--success-color);
+}
+.status.warning {
+  color: var(--warning-color);
+}
+.status.error {
+  color: var(--error-color);
+}
+
+/* Command output formatting */
+.output-block {
+  margin: 10px 0;
+  padding-left: 2ch;
+  border-left: 1px solid var(--primary-color);
+}
+.output-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.output-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+.output-list li {
+  margin-bottom: 3px;
+}
+.output-list li:before {
+  content: "•";
+  margin-right: 5px;
+  color: var(--info-color);
+}
+
+/* Table formatting */
+.output-table {
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+.output-table th, .output-table td {
+  padding: 3px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+}
+.output-table th {
+  color: var(--info-color);
+}
+
+/* Animation effects */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #terminal {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Password input */
+.password-input {
+  letter-spacing: 2px;
+}
+
+/* Progress bar */
+.progress-container {
+  width: 100%;
+  height: 10px;
+  background: var(--background-light);
+  margin: 10px 0;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.3s;
+}
+
+/* ASCII art */
+.ascii-art {
+  line-height: 1;
+  font-family: monospace;
+  white-space: pre;
+  color: var(--info-color);
+}
+
+/* File Explorer */
+.explorer-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  border: 1px solid var(--primary-color);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.explorer-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 3px;
+}
+
+.explorer-item:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.explorer-icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+.explorer-name {
+  flex-grow: 1;
+}
+
+.explorer-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.explorer-button {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: 'Source Code Pro', monospace;
+  transition: all 0.2s;
+}
+
+.explorer-button:hover {
+  background: var(--primary-color);
+  color: var(--background-dark);
+}
+
+.file-content {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-color);
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+}
+
+/* Tree View */
+.tree-output {
+  font-family: 'Source Code Pro', monospace;
+  line-height: 1.4;
+  white-space: pre;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid var(--secondary-color);
+  max-height: 60vh;
+  overflow-y: auto;
+}

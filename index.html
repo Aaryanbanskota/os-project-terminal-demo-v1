@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Terminal OS Series</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      font-family: 'Source Code Pro', monospace;
+      overflow: hidden;
+    }
+    
+    .container {
+      text-align: center;
+      max-width: 800px;
+      padding: 20px;
+    }
+    
+    .typing-text {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .typing-text div {
+      margin-bottom: 25px;
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+      word-spacing: 2px;
+    }
+    
+    .typing-text span {
+      display: inline-block;
+      color: black;
+      opacity: 0;
+      animation: fadeIn 0.1s forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .typing-text {
+      transition: opacity 1s ease-out;
+    }
+    
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.2em;
+      background: black;
+      margin-left: 5px;
+      animation: blink 1s steps(2, start) infinite;
+      vertical-align: text-bottom;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    .command-input {
+      margin-top: 50px;
+      position: relative;
+      width: 350px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .command-input.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .command-input input {
+      width: 100%;
+      padding: 12px 15px;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 1.2rem;
+      border: 2px solid #333;
+      border-radius: 5px;
+      background: transparent;
+      outline: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .command-input input:focus {
+      border-color: #000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .command-input::before {
+      content: '>';
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #333;
+      font-weight: bold;
+      z-index: 1;
+    }
+    
+    .command-input input {
+      padding-left: 25px;
+    }
+    
+    .hint {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #333;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .hint.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .glow-effect {
+      color: #000;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .glow-effect:hover {
+      text-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+    
+    .glow-effect::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #000;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+    
+    .glow-effect:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="typing-text" id="typingText">
+      <!-- Text will be inserted by JavaScript -->
+    </div>
+    
+    <div class="command-input">
+      <input type="text" id="commandInput" placeholder="Type command here..." autocomplete="off" spellcheck="false">
+    </div>
+    
+    <div class="hint">Hint: Type <span class="glow-effect">terminal</span> to access terminal, then type <span class="glow-effect">mackbook</span> to view OS</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Text to be animated with correct spelling and proper spacing
+      const text = "This is demo version for terminal series.\n\nType 'terminal' to go to terminal";
+      const typingTextElement = document.getElementById('typingText');
+      const commandInput = document.getElementById('commandInput');
+      
+      // Function to animate text writing letter by letter
+      const animateText = async () => {
+        // Clear any existing content
+        typingTextElement.innerHTML = '';
+        
+        // Split text by new lines
+        const lines = text.split('\n');
+        
+        for (const line of lines) {
+          const lineDiv = document.createElement('div');
+          lineDiv.style.marginBottom = '20px';
+          typingTextElement.appendChild(lineDiv);
+          
+          // Split line into words to ensure proper spacing
+          const words = line.split(' ');
+          
+          for (let w = 0; w < words.length; w++) {
+            // Add space between words (except before the first word)
+            if (w > 0) {
+              const spaceSpan = document.createElement('span');
+              spaceSpan.innerHTML = '&nbsp;';
+              lineDiv.appendChild(spaceSpan);
+            }
+            
+            // Add characters of each word one by one with delay
+            for (let i = 0; i < words[w].length; i++) {
+              const char = words[w][i];
+              const span = document.createElement('span');
+              span.textContent = char;
+              lineDiv.appendChild(span);
+              
+              // Add typing sound effect
+              if (char !== ' ') {
+                const audio = new Audio();
+                audio.volume = 0.05;
+                audio.src = 'data:audio/mp3;base64,SUQzAwAAAAAAJlRQRTEAAAAcAAAAU291bmRKYXkuY29tIFNvdW5kIEVmZmVjdHMA//uSwAAABLBJJlBGAAiTiOULCMARLgAB4w4AABwMDg4ODg4AAAA4QDg4OAAAAOAODgAA';
+                audio.play().catch(e => console.log('Audio play error:', e));
+              }
+              
+              // Wait for a random time between 50-150ms
+              await new Promise(resolve => setTimeout(resolve, Math.random() * 100 + 50));
+            }
+          }
+        }
+        
+        // Add blinking cursor at the end
+        const lastLine = typingTextElement.lastChild;
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor';
+        lastLine.appendChild(cursor);
+        
+        // Make text disappear after 3 seconds
+        setTimeout(() => {
+          // Fade out animation
+          typingTextElement.style.transition = 'opacity 1s ease-out';
+          typingTextElement.style.opacity = '0';
+          
+          // Show command input and hint after text disappears
+          setTimeout(() => {
+            // Show command input with animation
+            document.querySelector('.command-input').classList.add('visible');
+            
+            // Show hint with animation after a short delay
+            setTimeout(() => {
+              document.querySelector('.hint').classList.add('visible');
+            }, 500);
+            
+            // Focus on input
+            commandInput.focus();
+          }, 1000);
+        }, 3000);
+      };
+      
+      // Start the animation
+      animateText();
+      
+      // Handle command input
+      commandInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const command = this.value.trim().toLowerCase();
+          if (command === 'terminal') {
+            // Redirect to terminal.html
+            window.location.href = 'terminal.html';
+          } else {
+            // Shake effect for invalid command
+            this.classList.add('shake');
+            setTimeout(() => {
+              this.classList.remove('shake');
+            }, 500);
+            this.value = '';
+          }
+        }
+      });
+      
+      // Add shake animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake {
+          animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>
