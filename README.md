@@ -4,7 +4,8 @@
 <div align="center">
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDk0dGJ5Y2NtY3R4d2V5Z2R6Z2V6bnA1eWZ4NnR6dGJ5YzB6eWZ6byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPEqDGUULpEU0aQ/giphy.gif" width="300" alt="Terminal Demo Preview">
   <br/><br/>
-  <img src="https://img.shields.io/badge/%F0%9F%8C%90_Try_Live_Demo-FF5722?style=for-the-badge&logo=firefox" />
+ <a href="https://aaryanbanskota.github.io/os-project-terminal-demo-v1/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/%F0%9F%8C%90_Try_Live_Demo-FF5722?style=for-the-badge&logo=firefox" alt="Try Live Demo" />
 </div>
 
 ---
